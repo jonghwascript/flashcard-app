@@ -1,0 +1,48 @@
+@use '../abstracts' as *;
+
+// ------------------------------------------
+// 관계: 체크박스와 라벨을 한 행에 세로 중앙 정렬한다.
+// 제한: 체크박스는 1rem(16px) 크기를 유지하고, 공간이 부족하면 라벨이 줄어들어 줄바꿈된다.
+// 기본 input의 동작은 유지하고 appearance로 모양만 바꾼다.
+// ------------------------------------------
+.c-checkbox {
+  display: inline-flex;
+  gap: 0.5rem; // 8px
+  align-items: center;
+  cursor: pointer;
+
+  &__input {
+    flex-shrink: 0;
+    width: 1rem; // 16px
+    height: 1rem; // 16px
+    border: 1px solid $border-color;
+    border-radius: $radius-4;
+    background: $neutral-0 center / 0.5625rem auto no-repeat; // 9px
+    cursor: pointer;
+    appearance: none;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+
+    &:checked {
+      background-color: $yellow-500;
+      background-image: url('../images/icon-check.svg');
+    }
+
+    &:focus-visible {
+      box-shadow: $shadow-focus-ring;
+    }
+
+    // 고대비 모드에서 배경 이미지가 사라져도 체크 상태를 알 수 있게 한다
+    @media (forced-colors: active) {
+      appearance: auto;
+    }
+  }
+
+  &:hover &__input:not(:focus-visible) {
+    box-shadow: 1px 1px 0 0 $neutral-900;
+  }
+
+  &__label {
+    @include font-style($font-size-preset4, 500, 1.2);
+  }
+}

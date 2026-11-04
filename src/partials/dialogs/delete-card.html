@@ -1,0 +1,33 @@
+<dialog
+  id="delete-dialog"
+  class="c-dialog l-dialog"
+  aria-labelledby="delete-dialog-title"
+  aria-describedby="delete-dialog-message"
+>
+  <div class="c-dialog__inner l-dialog__scroll c-dialog__inner--confirm">
+    <div class="c-dialog__body">
+      <h2 id="delete-dialog-title" class="c-dialog__title l-dialog__title">
+        Delete this card?
+      </h2>
+      <p id="delete-dialog-message" class="c-dialog__message">
+        This action can’t be undone.
+      </p>
+    </div>
+    <div class="c-dialog__footer">
+      <button
+        class="c-button c-button--border c-button--strong"
+        type="button"
+        data-action="close-dialog"
+      >
+        Cancel
+      </button>
+      <button
+        class="c-button c-button--primary c-button--strong"
+        type="button"
+        data-action="confirm-delete"
+      >
+        Delete Card
+      </button>
+    </div>
+  </div>
+</dialog>

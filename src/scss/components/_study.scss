@@ -1,0 +1,138 @@
+@use '../abstracts' as *;
+
+// 관계: 학습 패널과 통계를 기본 한 열에 쌓고, 두 열에서는 align-items: stretch로 두 그리드 항목이 행 높이를 채우도록 늘린다.
+// 제한: 학습 열은 남는 너비를 사용하며 통계 열은 desktop에서 24.5rem을 확보한다.
+// 전환: desktop(64em)부터 학습·통계를 나란히 배치하고 간격을 2rem으로 늘린다.
+.l-study {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem; // 24px
+
+  @include mq('desktop') {
+    grid-template-columns: minmax(0, 1fr) 24.5rem; // 392px
+    gap: 2rem; // 32px
+    align-items: stretch;
+  }
+}
+
+.l-study-card {
+  inline-size: 100%;
+}
+
+// 관계: 콘텐츠와 카드 영역이 남는 높이를 채우고 내비게이션은 아래에 놓인다.
+// 제한: min-inline-size: 0으로 그리드 항목의 자동 최소 크기를 해제해 열 너비 안에서 축소를 허용한다.
+.l-study-panel {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.l-study-panel__content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.l-study-panel__card-area {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 1.25rem; // 20px
+  align-items: center;
+}
+
+// 관계: 학습 동작 묶음은 카드 영역의 가용 너비를 채운다.
+// 전환: tablet(48em)부터 세로 배치를 가로 중앙 배치로 바꾸고, 공간이 부족하면 줄바꿈한다.
+.l-study-panel__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem; // 10px
+  inline-size: 100%;
+}
+
+@include mq('tablet') {
+  .l-study-panel__actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1.25rem; // 20px
+    justify-content: center;
+  }
+}
+
+// 관계: 이전·다음 버튼과 카드 순서를 양끝 정렬하며 공간이 부족하면 다음 행으로 넘긴다.
+.l-study-panel__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem; // 16px
+  align-items: center;
+  justify-content: space-between;
+}
+
+// 관계: 빈 상태의 내용은 영역 중앙에 모으고, flex 부모 안에서는 남는 높이를 채운다.
+// 제한: 기본 최소 높이는 20rem이며 내용이 많으면 늘어난다. 설명 너비는 최대 27.5rem이다.
+.l-empty-state {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2rem; // 32px
+  align-items: center;
+  justify-content: center;
+  min-block-size: 20rem; // 320px
+}
+
+.l-empty-state__text {
+  max-inline-size: 27.5rem; // 440px
+}
+
+// 관계: 학습 영역의 패딩·경계·텍스트 표현을 담당하고 외부 배치는 l-study-panel이 소유한다.
+.c-study {
+  &__card-area {
+    padding: 1.5rem 1rem; // 24px 16px
+
+    @include mq('tablet') {
+      padding: 1.25rem; // 20px
+    }
+  }
+
+  &__nav {
+    padding: 1rem; // 16px
+    border-block-start: 1px solid $border-color;
+
+    @include mq('tablet') {
+      padding: 1.25rem; // 20px
+    }
+  }
+
+  &__counter {
+    @include font-style($font-size-preset5, 500, 1.4);
+    color: $neutral-600;
+    text-align: center;
+  }
+
+  &__load-error {
+    padding: 1.25rem; // 20px
+    @include font-style($font-size-preset4, 400, 1.4);
+    color: $neutral-600;
+    text-align: center;
+  }
+}
+
+.c-empty-state {
+  padding: 1.25rem; // 20px
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem; // 12px
+    text-align: center;
+  }
+
+  &__title {
+    @include font-style($font-size-preset2, 600, 1.2);
+  }
+
+  &__message {
+    @include font-style($font-size-preset4, 400, 1.4);
+    color: $neutral-600;
+  }
+}

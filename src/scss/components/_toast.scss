@@ -1,0 +1,71 @@
+@use '../abstracts' as *;
+
+// 관계: 알림 상자를 뷰포트 인라인 끝에 고정한다.
+// 전환: 기본은 아래쪽, desktop부터 위쪽 위치를 사용한다.
+.l-toast {
+  position: fixed;
+  inset-block-end: 1rem; // 16px
+  inset-inline: 1rem; // 16px
+  z-index: 20;
+  inline-size: fit-content;
+  max-block-size: calc(100dvh - 2rem); // 32px
+  margin-inline-start: auto;
+  overflow-y: auto;
+}
+
+@include mq('desktop') {
+  .l-toast {
+    inset-block: 7.25rem auto; // 116px
+    inset-inline-end: 3.75rem; // 60px
+    max-block-size: calc(100dvh - 8.25rem); // 132px
+  }
+}
+
+// 관계: 메시지·닫기 버튼의 내부 정렬과 외형을 제공하며 화면 위치는 l-toast가 소유한다.
+.c-toast {
+  display: flex;
+  gap: 1rem; // 16px
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.625rem 1rem; // 10px 16px
+  border: 1px solid $border-color;
+  border-radius: $radius-full;
+  background-color: $neutral-0;
+  box-shadow: $shadow-dropdown, $shadow-offset-2;
+  animation: toast-in 0.2s ease-out;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+
+  &__message {
+    max-inline-size: none; // 문단 60ch 제한 대신 토스트 폭을 따른다
+    @include font-style($font-size-preset4, 500, 1.2);
+    overflow-wrap: anywhere;
+  }
+
+  // 관계: 닫기 버튼은 지정 크기 1.5rem을 유지하며 음수 마진으로 주변 간격의 점유를 줄인다.
+  &__close {
+    flex-shrink: 0;
+    inline-size: 1.5rem; // 24px
+    block-size: 1.5rem; // 24px
+    margin: -0.25rem; // -4px
+    border-radius: $radius-4;
+    outline: 2px solid transparent;
+
+    &:hover {
+      background-color: $neutral-100;
+    }
+
+    &:focus-visible {
+      box-shadow: $shadow-focus-ring;
+    }
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem); // -8px
+  }
+}

@@ -1,0 +1,71 @@
+// ==========================================
+// 브라우저 기본 스타일 초기화
+// ==========================================
+
+// 지정한 너비·높이에 테두리와 패딩을 포함하도록 요소와 의사 요소에 border-box를 적용한다.
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+// 요소의 기본 마진을 없애고 필요한 간격은 개별 레이아웃·컴포넌트에서 지정한다.
+* {
+  margin: 0;
+}
+
+// 제한: 미디어의 가로 최대 너비를 포함 블록에 맞춘다. 별도 고정 높이나 최소 크기는 각 컴포넌트가 관리한다.
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+fieldset {
+  // fieldset의 최소 너비를 0으로 지정해 콘텐츠의 최소 너비보다 작아질 수 있게 한다.
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+legend {
+  // 관계: 범례가 fieldset의 가용 너비를 채우도록 블록과 100% 너비를 함께 지정한다.
+  display: block;
+  width: 100%;
+  padding: 0;
+}
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  background-color: transparent;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+// 폼 컨트롤은 기본적으로 글꼴을 상속하지 않는다
+button,
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+// 컴포넌트의 일반 display 선언보다 hidden 속성의 숨김 규칙을 우선한다.
+[hidden] {
+  display: none !important;
+}

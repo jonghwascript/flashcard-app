@@ -1,0 +1,61 @@
+@charset "UTF-8";
+
+$font-primary: 'Poppins', sans-serif;
+
+// ------------------------------------------
+// 색상 (Figma 변수 colors/<이름>/<단계>)
+// ------------------------------------------
+$neutral-900: #2e1401;
+$neutral-600: #6d5b4d;
+$neutral-100: #f7f3f0;
+$neutral-0: #ffffff;
+
+$yellow-500: #f8cb46;
+$blue-400: #92adeb;
+$blue-600: #5072c7;
+$teal-400: #47d9c9;
+$pink-400: #fc8ae5;
+$pink-500: #f073a3;
+$pink-700: #e11966; // 오류
+
+// ------------------------------------------
+// 글자 크기 (Figma text-preset, 아래 px 환산은 루트 글꼴 16px일 때의 참고값)
+// ------------------------------------------
+$font-size-preset1: 2.5rem; // 40px
+$font-size-preset1-tablet: 2rem; // 32px
+$font-size-preset1-mobile: 1.5rem; // 24px
+$font-size-preset2: 1.5rem; // 24px
+$font-size-preset3: 1.25rem; // 20px
+$font-size-preset4: 1rem; // 16px
+$font-size-preset5: 0.875rem; // 14px
+$font-size-preset6: 0.75rem; // 12px
+
+// ------------------------------------------
+// 둥글기·테두리·그림자
+// ------------------------------------------
+$radius-full: 999px;
+$radius-16: 1rem; // 16px
+$radius-12: 0.75rem; // 12px
+$radius-8: 0.5rem; // 8px
+$radius-6: 0.375rem; // 6px
+$radius-4: 0.25rem; // 4px
+
+$border-color: $neutral-900;
+$shadow-offset-2: 2px 2px 0 0 $neutral-900;
+$shadow-offset-4: 4px 4px 0 0 $neutral-900;
+$shadow-focus-offset: 3px 3px 0 0 $blue-600;
+// 입력란·메뉴·토스트 (figma-notes: 입력란 상태, 카드 메뉴, 토스트)
+$shadow-input-focus: 2px 2px 0 0 $blue-600;
+$shadow-input-error: 2px 2px 0 0 $pink-700;
+$shadow-dropdown: 0 3px 8px 0 rgba($neutral-900, 0.2);
+// 흰 간격 2px + 파랑 링 2px. Border 버튼·탭·체크박스 포커스에 쓴다.
+$shadow-focus-ring:
+  0 0 0 2px $neutral-0,
+  0 0 0 4px $blue-600;
+
+// 모바일은 breakpoint가 아니라 mobile-first 기본 스타일이므로 맵에 넣지 않는다.
+// 전환: mq()가 이 값을 48em·64em으로 출력한다. 초기 글꼴 16px일 때 각각 768px·1024px이다.
+$breakpoints: (
+  'tablet': 768px,
+  'desktop': 1024px,
+);

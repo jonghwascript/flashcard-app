@@ -1,0 +1,108 @@
+@use '../abstracts' as *;
+
+// 관계: 통계 목록은 flex-grow: 1로 제목 아래의 남는 세로 공간을 차지한다.
+// 전환: 목록은 기본 한 열, tablet 두 열, desktop 한 열이며 desktop에서는 자동 생성 행의 높이를 1fr로 균등 배분한다.
+.l-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; // 16px
+}
+
+.l-stats__list {
+  display: grid;
+  flex: 1;
+  gap: 1rem; // 16px
+
+  @include mq('tablet') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem; // 20px
+  }
+
+  @include mq('desktop') {
+    grid-template-columns: minmax(0, 1fr);
+    grid-auto-rows: 1fr;
+  }
+}
+
+// 관계: 통계 패널의 외형과 각 항목 안의 텍스트·아이콘 배치를 제공한다.
+// 제한: 패널 사이 배치와 목록 열 수는 l-stats가 담당한다.
+.c-stats {
+  padding: 1.25rem 1rem; // 20px 16px
+
+  @include mq('tablet') {
+    padding: 1rem 1.25rem; // 16px 20px
+  }
+
+  @include mq('desktop') {
+    padding: 1.5rem; // 24px
+  }
+
+  &__title {
+    @include font-style($font-size-preset2, 600, 1.2);
+  }
+
+  // 관계: 항목 내부의 텍스트·아이콘을 묶고 공간이 부족하면 다음 줄로 넘긴다.
+  // 제한: 아이콘은 6.25rem(100px) 기준으로 축소하지 않으며 항목 높이는 콘텐츠에 따라 늘어난다.
+  &__item {
+    display: flex;
+    flex-wrap: wrap;
+    min-block-size: 7.5rem; // 120px
+    overflow: hidden;
+    border: 1px solid $border-color;
+    border-inline-end-width: 2px;
+    border-block-end-width: 2px;
+    border-radius: $radius-12;
+    background-color: $neutral-0;
+  }
+
+  &__text {
+    display: flex;
+    flex: 999 1 auto; // 남는 폭은 거의 모두 글자 쪽이 가져간다
+    flex-direction: column;
+    gap: 0.5rem; // 8px
+    justify-content: space-between;
+    min-inline-size: 0;
+    padding: 1rem 1.25rem; // 16px 20px
+  }
+
+  &__label {
+    @include font-style($font-size-preset4, 500, 1.2);
+  }
+
+  &__value {
+    @include font-style($font-size-preset1-mobile, 700, 1.2);
+
+    @include mq('tablet') {
+      font-size: $font-size-preset1-tablet;
+    }
+
+    @include mq('desktop') {
+      font-size: $font-size-preset1;
+    }
+  }
+
+  &__icon {
+    display: flex;
+    flex: 1 0 6.25rem; // 100px
+    align-items: center;
+    justify-content: center;
+    min-block-size: 3rem; // 48px
+    // 왼쪽 선(옆에 있을 때)과 위쪽 선(아래 줄일 때)을 같은 방법으로 그린다
+    box-shadow: -1px -1px 0 0 $border-color;
+  }
+
+  // 항목별 아이콘 블록 색
+  @each $name,
+    $color
+      in (
+        total: $blue-400,
+        mastered: $teal-400,
+        in-progress: $pink-500,
+        not-started: $pink-400
+      )
+  {
+    &__item--#{$name} &__icon {
+      background-color: $color;
+    }
+  }
+}

@@ -1,0 +1,68 @@
+@use '../abstracts' as *;
+
+// 관계: 로고와 보기 전환을 양끝에 두며 공간이 부족하면 다음 행으로 넘긴다.
+.l-app-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem; // 16px
+  align-items: center;
+  justify-content: space-between;
+}
+
+.l-app-header__title {
+  flex-shrink: 0;
+}
+
+// 제한: 보기 전환 묶음은 헤더의 가용 너비를 넘지 않게 제한한다.
+// 전환: 묶음 내부 버튼도 공간이 부족하면 다음 행으로 넘어갈 수 있다.
+.l-view-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem; // 4px
+  max-inline-size: 100%;
+}
+
+// 관계: 로고 비율과 보기 전환의 외형을 제공하며 외부 배치는 l- 클래스가 담당한다.
+.c-app-header {
+  &__logo {
+    block-size: 2.5rem; // 40px
+    inline-size: auto;
+  }
+}
+
+// aria-pressed 토글 버튼 묶음이며 탭의 화살표 키 이동 계약은 사용하지 않는다.
+.c-view-toggle {
+  padding: 0.25rem; // 4px
+  border: 1px solid $border-color;
+  border-radius: $radius-full;
+  background-color: $neutral-0;
+  filter: drop-shadow(1px 2px 0 $neutral-900);
+
+  &__button {
+    padding: 0.625rem 0.75rem; // 10px 12px
+    border: 1px solid transparent;
+    border-radius: $radius-full;
+    background-color: $neutral-0;
+    @include font-style($font-size-preset4, 600, 1.2);
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+
+    &:hover {
+      border-color: $border-color;
+    }
+
+    &:focus-visible {
+      box-shadow: $shadow-focus-ring;
+    }
+
+    @include mq('tablet') {
+      min-block-size: 2.75rem; // 44px
+      padding-inline: 1rem; // 16px
+    }
+  }
+
+  &__button.is-current {
+    border-color: $border-color;
+    background-color: $yellow-500;
+  }
+}

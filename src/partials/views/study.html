@@ -1,0 +1,206 @@
+<section id="study-view" class="l-study" aria-labelledby="study-view-title">
+  <h2 id="study-view-title" class="u-sr-only" tabindex="-1">Study Mode</h2>
+
+  <div class="c-panel c-study l-study-panel">
+    <div class="c-toolbar l-toolbar" data-scope="study">
+      <div class="c-toolbar__filters l-toolbar__filters">
+        <div
+          class="c-category-filter l-category-filter"
+          data-js="category-filter"
+        >
+          <button
+            class="c-button c-button--border c-category-filter__toggle l-category-filter__toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="study-category-panel"
+            data-action="toggle-categories"
+          >
+            All Categories
+            <img
+              class="c-button__icon"
+              src="./images/icon-chevron-down.svg"
+              alt=""
+              width="16"
+              height="16"
+            />
+          </button>
+          <div
+            id="study-category-panel"
+            class="c-category-filter__panel l-category-filter__panel"
+            data-js="category-panel"
+            hidden
+          >
+            <fieldset class="c-category-filter__fieldset">
+              <legend class="u-sr-only">Categories</legend>
+              <ul
+                class="c-category-filter__list"
+                role="list"
+                data-js="category-list"
+              ></ul>
+            </fieldset>
+          </div>
+        </div>
+
+        <label class="c-checkbox">
+          <input
+            class="c-checkbox__input"
+            type="checkbox"
+            data-action="toggle-hide-mastered"
+          />
+          <span class="c-checkbox__label">Hide Mastered</span>
+        </label>
+      </div>
+
+      <button
+        class="c-button c-button--border"
+        type="button"
+        data-action="shuffle"
+      >
+        <img
+          class="c-button__icon"
+          src="./images/icon-shuffle.svg"
+          alt=""
+          width="16"
+          height="16"
+        />
+        Shuffle
+      </button>
+    </div>
+
+    <div
+      class="c-study__content l-study-panel__content"
+      data-js="study-content"
+    >
+      <div class="c-study__card-area l-study-panel__card-area">
+        <button
+          class="c-flashcard l-study-card"
+          type="button"
+          aria-pressed="false"
+          data-action="flip"
+          data-js="flashcard"
+        >
+          <span class="c-flashcard__face c-flashcard__face--front">
+            <span class="c-tag" data-js="card-category">Web Development</span>
+            <span class="c-flashcard__body">
+              <span class="c-flashcard__question" data-js="card-question"
+                >What does HTML stand for?</span
+              >
+              <span class="c-flashcard__hint">Click to reveal answer</span>
+            </span>
+            <span class="c-flashcard__status" data-js="card-status"></span>
+          </span>
+          <span
+            class="c-flashcard__face c-flashcard__face--back"
+            aria-hidden="true"
+          >
+            <span class="c-tag" data-js="card-category">Web Development</span>
+            <span class="c-flashcard__body">
+              <span class="c-flashcard__hint">Answer:</span>
+              <span class="c-flashcard__answer" data-js="card-answer"
+                >HyperText Markup Language</span
+              >
+            </span>
+            <span class="c-flashcard__status" data-js="card-status"></span>
+          </span>
+        </button>
+
+        <div class="c-study__actions l-study-panel__actions">
+          <button
+            class="c-button c-button--primary"
+            type="button"
+            data-action="know"
+          >
+            <img
+              class="c-button__icon"
+              src="./images/icon-circle-check.svg"
+              alt=""
+              width="16"
+              height="16"
+            />
+            <span data-js="know-label">I Know This</span>
+          </button>
+          <button
+            class="c-button c-button--secondary"
+            type="button"
+            data-action="reset"
+          >
+            <img
+              class="c-button__icon"
+              src="./images/icon-reset.svg"
+              alt=""
+              width="16"
+              height="16"
+            />
+            Reset Progress
+          </button>
+        </div>
+      </div>
+
+      <div class="c-study__nav l-study-panel__nav">
+        <button
+          class="c-button c-button--border c-button--nav"
+          type="button"
+          data-action="prev"
+        >
+          <img
+            class="c-button__icon"
+            src="./images/icon-chevron-left.svg"
+            alt=""
+            width="16"
+            height="16"
+          />
+          <span class="c-button__label">Previous</span>
+        </button>
+        <p class="c-study__counter" data-js="card-counter">Card 1 of 40</p>
+        <button
+          class="c-button c-button--border c-button--nav"
+          type="button"
+          data-action="next"
+        >
+          <span class="c-button__label">Next</span>
+          <img
+            class="c-button__icon"
+            src="./images/icon-chevron-right.svg"
+            alt=""
+            width="16"
+            height="16"
+          />
+        </button>
+      </div>
+    </div>
+
+    <div class="c-empty-state l-empty-state" data-js="empty-no-cards" hidden>
+      <div class="c-empty-state__text l-empty-state__text">
+        <h3 class="c-empty-state__title">No cards to study</h3>
+        <p class="c-empty-state__message">
+          You don’t have any cards yet. Add your first card in the All Cards
+          tab.
+        </p>
+      </div>
+      <button
+        class="c-button c-button--secondary"
+        type="button"
+        data-action="show-view"
+        data-view="all"
+      >
+        Go to All Cards
+      </button>
+    </div>
+
+    <div class="c-empty-state l-empty-state" data-js="empty-caught-up" hidden>
+      <div class="c-empty-state__text l-empty-state__text">
+        <h3 class="c-empty-state__title">You’re all caught up!</h3>
+        <p class="c-empty-state__message">
+          All your cards are mastered. Turn off “Hide mastered” to see them
+          again.
+        </p>
+      </div>
+    </div>
+
+    <p class="c-study__load-error" data-js="load-error" hidden>
+      Your cards couldn’t be loaded. Please refresh the page to try again.
+    </p>
+  </div>
+
+  @@include('../components/study-statistics.html')
+</section>

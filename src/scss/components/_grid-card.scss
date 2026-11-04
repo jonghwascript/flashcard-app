@@ -1,0 +1,115 @@
+@use '../abstracts' as *;
+
+// 관계: 카드는 목록 항목의 너비를 채우고 정답 영역이 남는 높이를 차지해 푸터를 아래에 둔다.
+// 제한: 푸터는 최소 높이 3.5rem을 유지하며 태그·진행 칸은 행 높이만큼 늘어난다.
+// 전환: c-grid-card 컨테이너가 13em 이하이면 푸터 줄바꿈과 진행 칸 축소를 허용한다.
+.l-grid-card {
+  inline-size: 100%;
+}
+
+.l-grid-card__answer {
+  flex: 1;
+}
+
+.l-grid-card__footer {
+  display: flex;
+  gap: 0.5rem; // 8px
+  align-items: center;
+  min-block-size: 3.5rem; // 56px
+}
+
+.l-grid-card__tag,
+.l-grid-card__status {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  min-inline-size: 0;
+}
+
+.l-grid-card__status {
+  flex: 1 0 auto;
+}
+
+@container (max-width: 13em) {
+  .l-grid-card__footer {
+    flex-wrap: wrap;
+  }
+}
+
+@container (max-width: 13em) {
+  .l-grid-card__status {
+    flex-shrink: 1;
+  }
+}
+
+// 관계: 질문·정답·푸터의 내부 표현을 제공하며 외부 폭과 영역 배분은 l-grid-card가 담당한다.
+.c-grid-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid $border-color;
+  border-inline-end-width: 3px;
+  border-block-end-width: 3px;
+  border-radius: $radius-16;
+  background-color: $neutral-0;
+  container-type: inline-size; // 아래 @container로 푸터 줄바꿈을 판단한다
+
+  &__question {
+    padding: 1rem; // 16px
+    border-block-end: 1px solid $border-color;
+    @include font-style($font-size-preset3, 600, 1.2);
+    overflow-wrap: anywhere; // 공백 없는 긴 문자열도 카드 안에서 줄바꿈
+  }
+
+  // 관계: l-grid-card__answer의 flex-grow: 1과 함께 정답 내부를 세로로 쌓는다.
+  &__answer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem; // 6px
+    padding: 1rem; // 16px
+    border-block-end: 1px solid $border-color;
+    @include font-style($font-size-preset5, 500, 1.4);
+    overflow-wrap: anywhere;
+
+    // 제한: 문단의 전역 최대 너비 대신 카드 내부 가용 너비를 사용한다.
+    p {
+      max-inline-size: none;
+    }
+  }
+
+  &__answer-label {
+    opacity: 0.6;
+  }
+
+  &__footer {
+    padding-inline: 1rem; // 16px
+  }
+
+  // 태그·진행 칸: 오른쪽 구분선이 푸터 높이를 채운다
+  &__tag,
+  &__status {
+    padding-block: 0.5rem; // 8px
+    padding-inline-end: 0.625rem; // 10px
+    border-inline-end: 1px solid $border-color;
+  }
+
+  &__tag .c-tag {
+    overflow-wrap: anywhere; // 긴 카테고리는 태그 안에서 줄바꿈
+  }
+
+  &__status {
+    .c-progress span:last-child {
+      opacity: 0.8;
+    }
+
+    .c-mastered-badge {
+      white-space: nowrap;
+    }
+  }
+}
+
+@container (max-width: 13em) {
+  .c-grid-card__status .c-mastered-badge {
+    flex-wrap: wrap;
+    white-space: normal;
+  }
+}

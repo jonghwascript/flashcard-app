@@ -1,0 +1,99 @@
+@use '../abstracts' as *;
+
+// ------------------------------------------
+// 관계: reset의 inline-flex 중앙 정렬을 사용해 아이콘과 라벨 사이에 간격을 둔다.
+// 제한: 아이콘은 축소하지 않고 버튼 크기는 라벨과 패딩·테두리를 포함한다.
+// ------------------------------------------
+.c-button {
+  gap: 0.5rem; // 8px
+  padding: 0.75rem 1rem; // 12px 16px
+  border: 1px solid $border-color;
+  border-radius: $radius-full;
+  background-color: $neutral-0;
+  @include font-style($font-size-preset4, 500, 1.2);
+  color: $neutral-900;
+  text-align: center; // 라벨이 여러 줄이면 각 줄을 가운데 정렬한다.
+  // 강제 색상 모드에서 시스템 색으로 표시될 수 있도록 투명 outline을 둔다.
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition:
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
+
+  // is-disabled: 포커스를 잃지 않도록 disabled 대신 aria-disabled와 함께 쓴다
+  &:disabled,
+  &.is-disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+  }
+}
+
+// Border: 필터, Shuffle, Previous, Next
+.c-button--border {
+  &:hover:not(:disabled, .is-disabled) {
+    background-color: $neutral-100;
+  }
+
+  &:focus-visible {
+    box-shadow: $shadow-focus-ring;
+  }
+}
+
+// Primary(I Know This)·Secondary(Reset Progress): 그림자가 커지는 hover
+.c-button--primary,
+.c-button--secondary {
+  padding-inline: 1.25rem; // 20px
+  box-shadow: $shadow-offset-2;
+
+  &:hover:not(:disabled, .is-disabled) {
+    box-shadow: $shadow-offset-4;
+  }
+
+  &:focus-visible {
+    box-shadow: $shadow-focus-offset;
+  }
+}
+
+.c-button--primary {
+  background-color: $yellow-500;
+}
+
+// All Cards의 폼·대화상자 버튼은 SemiBold다 (Create Card, Update Card, Cancel, Delete Card)
+.c-button--strong {
+  font-weight: 600;
+}
+
+// 전환: 기본은 라벨을 흐름 밖의 1px 상자로 숨기고 tablet부터 일반 흐름에 복원한다.
+// 제한: 고정 크기가 없으며, 라벨을 숨긴 기본 상태의 크기는 아이콘·0.75rem 패딩·테두리로 결정된다.
+.c-button--nav {
+  padding: 0.75rem; // 12px
+
+  .c-button__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  @include mq('tablet') {
+    padding: 0.75rem 1rem; // 12px 16px
+
+    .c-button__label {
+      position: static;
+      width: auto;
+      height: auto;
+      overflow: visible;
+      clip: auto;
+    }
+  }
+}

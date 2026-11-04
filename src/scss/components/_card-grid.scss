@@ -1,0 +1,92 @@
+@use '../abstracts' as *;
+
+// 관계: 생성 폼·도구 모음·카드 목록·페이지 이동을 세로로 쌓는다.
+// 전환: desktop(64em)부터 영역 사이 간격을 1.5rem에서 2rem으로 늘린다.
+.l-all-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; // 24px
+
+  @include mq('desktop') {
+    gap: 2rem; // 32px
+  }
+}
+
+// 관계: 목록 항목을 균등한 너비의 열에 배치하고, 각 행에서 항목과 내부 카드가 행 높이를 채운다.
+// 전환: 한 열에서 tablet 두 열, desktop 세 열로 바뀐다.
+.l-card-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem; // 20px
+}
+
+@include mq('tablet') {
+  .l-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem; // 24px
+  }
+}
+
+@include mq('desktop') {
+  .l-card-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.l-card-grid__item {
+  display: flex;
+}
+
+.l-pagination {
+  display: flex;
+  justify-content: center;
+}
+
+// 제한: 전체 카드 화면의 빈 상태는 기본 20rem 대신 최소 높이 15.625rem을 사용한다.
+// 관계: 두 클래스의 명시도로 _study.scss의 기본 빈 상태 규칙보다 우선한다.
+.l-empty-state.l-empty-state--plain {
+  min-block-size: 15.625rem; // 250px
+}
+
+// All Cards: 생성 폼 패널, 패널 없는 툴바, 카드 그리드, Load More
+
+// 생성 폼·대화상자 패널은 오른쪽·아래 테두리가 4px이다 (Study 패널은 3px)
+.c-panel--raised {
+  border-inline-end-width: 4px;
+  border-block-end-width: 4px;
+}
+
+.c-create-card {
+  padding: 1.25rem; // 20px
+
+  @include mq('tablet') {
+    padding: 1.5rem; // 24px
+  }
+
+  @include mq('desktop') {
+    padding: 2rem; // 32px
+  }
+}
+
+.c-toolbar--bare {
+  padding: 1rem 0 0; // 16px
+  border-block-end: 0;
+
+  @include mq('tablet') {
+    padding: 1rem 0 0; // 16px
+  }
+}
+
+.c-pagination {
+  padding-block-start: 1rem; // 16px
+}
+
+.c-empty-state--plain {
+  .c-empty-state__text {
+    gap: 0.625rem; // 10px
+  }
+
+  .c-empty-state__message {
+    color: $neutral-900;
+  }
+}

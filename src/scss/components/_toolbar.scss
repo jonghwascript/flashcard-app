@@ -1,0 +1,41 @@
+@use '../abstracts' as *;
+
+// 관계: 필터 묶음과 Shuffle을 양끝에 놓고 부족한 폭에서는 줄바꿈한다.
+.l-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem; // 16px
+  align-items: flex-start;
+  justify-content: space-between;
+
+  @include mq('tablet') {
+    align-items: center;
+  }
+}
+
+// 관계: 필터 버튼과 체크박스를 세로로 묶고 도구 모음 안에서 너비가 줄어들 수 있게 한다.
+// 전환: tablet(48em)부터 가로 배치로 바꾸고 항목을 세로 중앙에 맞춘다.
+.l-toolbar__filters {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem; // 10px
+  align-items: flex-start;
+  min-inline-size: 0; // 필터 묶음의 자동 최소 인라인 크기를 해제한다.
+}
+
+@include mq('tablet') {
+  .l-toolbar__filters {
+    flex-direction: row;
+    gap: 1rem; // 16px
+    align-items: center;
+  }
+}
+
+.c-toolbar {
+  padding: 0.75rem 1rem; // 12px 16px
+  border-block-end: 1px solid $border-color;
+
+  @include mq('tablet') {
+    padding: 1.25rem; // 20px
+  }
+}

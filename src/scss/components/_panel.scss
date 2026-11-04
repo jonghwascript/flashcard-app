@@ -1,0 +1,10 @@
+@use '../abstracts' as *;
+
+// 제한: 인라인 끝과 블록 끝 테두리를 3px로 두며 패널 크기 계산에 포함한다.
+.c-panel {
+  border: 1px solid $border-color;
+  border-inline-end-width: 3px;
+  border-block-end-width: 3px;
+  border-radius: $radius-16;
+  background-color: $neutral-0;
+}

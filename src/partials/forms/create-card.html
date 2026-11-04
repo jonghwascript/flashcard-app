@@ -1,0 +1,81 @@
+<form
+  class="c-card-form l-card-form"
+  data-js="card-form"
+  data-form="create"
+  novalidate
+>
+  <div class="c-field">
+    <label class="c-field__label" for="create-question">Question</label>
+    <input
+      class="c-field__control"
+      id="create-question"
+      name="question"
+      type="text"
+      autocomplete="off"
+      placeholder="e.g., What is the capital of France?"
+    />
+    <p
+      class="c-field__error"
+      id="create-question-error"
+      data-error-for="question"
+      hidden
+    >
+      <img src="./images/icon-error.svg" alt="" width="14" height="15" />
+      <span data-js="error-text"></span>
+    </p>
+  </div>
+  <div class="c-field">
+    <label class="c-field__label" for="create-answer">Answer</label>
+    <textarea
+      class="c-field__control c-field__control--multiline"
+      id="create-answer"
+      name="answer"
+      rows="3"
+      placeholder="e.g., Paris"
+    ></textarea>
+    <p
+      class="c-field__error"
+      id="create-answer-error"
+      data-error-for="answer"
+      hidden
+    >
+      <img src="./images/icon-error.svg" alt="" width="14" height="15" />
+      <span data-js="error-text"></span>
+    </p>
+  </div>
+  <div class="c-field">
+    <label class="c-field__label" for="create-category">Category</label>
+    <input
+      class="c-field__control"
+      id="create-category"
+      name="category"
+      type="text"
+      autocomplete="off"
+      placeholder="e.g., Geography"
+    />
+    <p
+      class="c-field__error"
+      id="create-category-error"
+      data-error-for="category"
+      hidden
+    >
+      <img src="./images/icon-error.svg" alt="" width="14" height="15" />
+      <span data-js="error-text"></span>
+    </p>
+  </div>
+  <div class="c-card-form__actions l-card-form__actions">
+    <button
+      class="c-button c-button--primary c-button--strong"
+      type="submit"
+    >
+      <img
+        class="c-button__icon"
+        src="./images/icon-circle-plus.svg"
+        alt=""
+        width="16"
+        height="16"
+      />
+      Create Card
+    </button>
+  </div>
+</form>

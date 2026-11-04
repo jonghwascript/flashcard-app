@@ -1,0 +1,42 @@
+<header class="c-app-header l-app-header">
+  <h1 class="c-app-header__title l-app-header__title">
+    <picture>
+      <source
+        media="(min-width: 48em)"
+        srcset="./images/logo-large.svg"
+        width="157"
+        height="40"
+      />
+      <img
+        class="c-app-header__logo"
+        src="./images/logo-small.svg"
+        alt="Flashcard"
+        width="40"
+        height="40"
+      />
+    </picture>
+  </h1>
+
+  <div class="c-view-toggle l-view-toggle" role="group" aria-label="View">
+    <button
+      class="c-view-toggle__button is-current"
+      type="button"
+      aria-pressed="true"
+      aria-controls="study-view"
+      data-action="show-view"
+      data-view="study"
+    >
+      Study Mode
+    </button>
+    <button
+      class="c-view-toggle__button"
+      type="button"
+      aria-pressed="false"
+      aria-controls="all-cards-view"
+      data-action="show-view"
+      data-view="all"
+    >
+      All Cards
+    </button>
+  </div>
+</header>

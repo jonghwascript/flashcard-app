@@ -1,0 +1,79 @@
+<dialog id="edit-dialog" class="c-dialog l-dialog" aria-labelledby="edit-dialog-title">
+  <div class="c-dialog__inner l-dialog__scroll">
+    <form class="c-card-form l-card-form" data-js="card-form" data-form="edit" novalidate>
+      <h2 id="edit-dialog-title" class="c-dialog__title l-dialog__title">Edit your card</h2>
+      <div class="c-field">
+        <label class="c-field__label" for="edit-question">Question</label>
+        <input
+          class="c-field__control"
+          id="edit-question"
+          name="question"
+          type="text"
+          autocomplete="off"
+        />
+        <p
+          class="c-field__error"
+          id="edit-question-error"
+          data-error-for="question"
+          hidden
+        >
+          <img src="./images/icon-error.svg" alt="" width="14" height="15" />
+          <span data-js="error-text"></span>
+        </p>
+      </div>
+      <div class="c-field">
+        <label class="c-field__label" for="edit-answer">Answer</label>
+        <textarea
+          class="c-field__control c-field__control--multiline"
+          id="edit-answer"
+          name="answer"
+          rows="3"
+        ></textarea>
+        <p
+          class="c-field__error"
+          id="edit-answer-error"
+          data-error-for="answer"
+          hidden
+        >
+          <img src="./images/icon-error.svg" alt="" width="14" height="15" />
+          <span data-js="error-text"></span>
+        </p>
+      </div>
+      <div class="c-field">
+        <label class="c-field__label" for="edit-category">Category</label>
+        <input
+          class="c-field__control"
+          id="edit-category"
+          name="category"
+          type="text"
+          autocomplete="off"
+        />
+        <p
+          class="c-field__error"
+          id="edit-category-error"
+          data-error-for="category"
+          hidden
+        >
+          <img src="./images/icon-error.svg" alt="" width="14" height="15" />
+          <span data-js="error-text"></span>
+        </p>
+      </div>
+      <div class="c-card-form__actions l-card-form__actions c-card-form__actions--end l-card-form__actions--end">
+        <button
+          class="c-button c-button--primary c-button--strong"
+          type="submit"
+        >
+          Update Card
+        </button>
+      </div>
+    </form>
+    <button
+      class="c-dialog__close"
+      type="button"
+      aria-label="Close"
+      data-action="close-dialog"
+    >
+      <img src="./images/icon-cross.svg" alt="" width="16" height="16" />
+    </button>
+  </div>
+</dialog>

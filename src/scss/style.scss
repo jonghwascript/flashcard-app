@@ -1,0 +1,26 @@
+// rem 옆의 px 환산 주석은 루트 글꼴 크기 16px 기준의 참고값이다.
+// 관계: reset·base 뒤에 컴포넌트·페이지·유틸리티를 출력한다.
+// 제한: 같은 중요도·명시도의 규칙은 뒤쪽 선언이 우선하며 유틸리티는 마지막에 둔다.
+@use 'base/reset';
+@use 'base/base';
+
+@use 'components/skip-link';
+@use 'components/button';
+@use 'components/panel';
+@use 'components/app-header';
+@use 'components/toolbar';
+@use 'components/checkbox';
+@use 'components/category-filter';
+@use 'components/flashcard';
+@use 'components/study';
+@use 'components/stats';
+@use 'components/form-field';
+@use 'components/card-grid';
+@use 'components/grid-card';
+@use 'components/card-menu';
+@use 'components/dialog';
+@use 'components/toast';
+
+@use 'pages/home';
+
+@use 'utilities/utilities'; // 같은 명시도에서 다른 규칙을 이기도록 마지막에

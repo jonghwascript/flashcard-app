@@ -1,0 +1,30 @@
+@use '../abstracts' as *;
+
+// 관계: 앱을 인라인 축 중앙에 두고 헤더와 본문을 세로로 쌓는다.
+// 제한: 앱의 최대 인라인 크기는 패딩을 포함해 81.5rem이며 부모가 좁으면 줄어든다.
+// 전환: desktop부터 영역 간격을 늘린다.
+.l-app {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; // 24px
+  max-inline-size: 81.5rem; // 1304px
+  margin-inline: auto;
+
+  @include mq('desktop') {
+    gap: 2rem; // 32px
+  }
+}
+
+// 관계: l-app의 border-box 안에 페이지 여백을 두며 최대 인라인 크기에 패딩도 포함된다.
+// 전환: tablet부터 인라인 패딩은 2rem이며 desktop에서는 블록 패딩만 1.5rem으로 바뀐다.
+.c-app {
+  padding: 1rem 1rem 2.5rem; // 16px 16px 40px
+
+  @include mq('tablet') {
+    padding: 1.25rem 2rem 4rem; // 20px 32px 64px
+  }
+
+  @include mq('desktop') {
+    padding-block: 1.5rem; // 24px
+  }
+}

@@ -1,0 +1,81 @@
+@use '../abstracts' as *;
+
+// 관계: 메뉴 래퍼는 흐름 밖에 배치되는 메뉴 목록의 포함 블록이다.
+.l-card-menu {
+  position: relative;
+  flex-shrink: 0;
+}
+
+// 관계: 메뉴 래퍼의 인라인 끝에 맞추고 목록 아래 끝을 래퍼 위에서 0.5rem 띄운다.
+// 제한: 너비는 8.75rem이며 문서 흐름 밖에서 주변 카드와 겹친다.
+.l-card-menu__list {
+  position: absolute;
+  inset-block-end: calc(100% + 0.5rem); // 8px
+  inset-inline-end: 0;
+  z-index: 10;
+  inline-size: 8.75rem; // 140px
+  overflow: hidden;
+}
+
+.c-card-menu {
+  display: flex;
+  align-items: center;
+
+  // 제한: 토글은 테두리를 포함한 1.5rem 정사각형이다. 메뉴 목록은 흐름 밖이고 래퍼(l-card-menu)가 축소되지 않아 크기를 유지한다.
+  &__toggle {
+    inline-size: 1.5rem; // 24px
+    block-size: 1.5rem; // 24px
+    border: 1px solid transparent;
+    border-radius: $radius-4;
+    outline: 2px solid transparent;
+
+    img {
+      flex-shrink: 0;
+      max-inline-size: none;
+    }
+
+    &:hover,
+    &[aria-expanded='true'] {
+      border-color: $border-color;
+      background-color: $neutral-0;
+      box-shadow: $shadow-offset-2;
+    }
+
+    &:focus-visible {
+      border-color: $border-color;
+      background-color: $neutral-0;
+      box-shadow: $shadow-focus-ring;
+    }
+  }
+
+  &__list {
+    border: 1px solid $border-color;
+    border-radius: $radius-8;
+    background-color: $neutral-0;
+    box-shadow: $shadow-dropdown;
+
+    li + li {
+      border-block-start: 1px solid $border-color;
+    }
+  }
+
+  &__item {
+    gap: 0.5rem; // 8px
+    justify-content: flex-start;
+    inline-size: 100%;
+    padding: 0.5rem 1rem; // 8px 16px
+    background-color: $neutral-0;
+    @include font-style($font-size-preset5, 500, 1.4);
+    outline: 2px solid transparent;
+
+    &:hover {
+      background-color: $neutral-100;
+    }
+
+    // 포커스 표시는 상자 크기에 영향을 주지 않는 2px 안쪽 그림자로 그린다.
+    &:focus-visible {
+      background-color: $neutral-0;
+      box-shadow: inset 0 0 0 2px $blue-600;
+    }
+  }
+}

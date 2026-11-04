@@ -1,0 +1,55 @@
+@use '../abstracts' as *;
+
+// ==========================================
+// 모듈러 스케일 (Every Layout 간격 토큰)
+// ==========================================
+:root {
+  --measure: 60ch;
+  --base-size: 1rem; // 16px
+  --ratio: 1.5;
+
+  --s0: var(--base-size);
+  --s1: calc(var(--s0) * var(--ratio)); // 기본 토큰 기준 24px
+  --s2: calc(var(--s1) * var(--ratio)); // 기본 토큰 기준 36px
+  --s3: calc(var(--s2) * var(--ratio)); // 기본 토큰 기준 54px
+  --s4: calc(var(--s3) * var(--ratio)); // 기본 토큰 기준 81px
+
+  // 기준 간격을 비율로 나눈 작은 간격 토큰
+  --s-1: calc(var(--s0) / var(--ratio)); // 기본 토큰 기준 약 10.67px
+  --s-2: calc(var(--s-1) / var(--ratio)); // 기본 토큰 기준 약 7.11px
+
+  // 색상·테두리 토큰
+  --color-light: #ffffff;
+  --color-dark: #1e293b;
+  --border-thin: 1px;
+  --border-color: #e2e8f0;
+  --border-radius: 0.5rem; // 8px
+}
+
+// ==========================================
+// 전역 타이포그래피와 가독성
+// ==========================================
+body {
+  // 모듈러 스케일의 기준이 되는 줄 간격
+  line-height: var(--ratio);
+  background-color: $neutral-100;
+  font-family: $font-primary;
+  color: $neutral-900;
+  -webkit-font-smoothing: antialiased;
+}
+
+
+// ==========================================
+// 제한: 문단의 최대 인라인 크기만 --measure로 제한하며 고정 너비를 강제하지 않는다.
+// 관계: 패널 폭을 채우는 문단은 컴포넌트에서 max-inline-size: none으로 해제한다.
+// ==========================================
+p {
+  max-inline-size: var(--measure, 60ch);
+}
+
+// 컴포넌트가 따로 정하지 않은 버튼의 기본 포커스 표시.
+// :where()로 명시도를 낮춰 컴포넌트의 포커스 스타일(.c-button 등)이 이기게 한다
+:where(button):focus-visible {
+  outline: 3px solid $blue-600;
+  outline-offset: 3px;
+}

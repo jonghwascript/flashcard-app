@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./images/favicon-32x32.png"
+    />
+
+    <title>Frontend Mentor | Flashcard app</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script src="./js/main.js" defer></script>
+  </head>
+  <body>
+    <div class="c-app l-app">
+      @@include('../partials/layout/app-header.html')
+
+      <main id="main" class="c-app__main">
+        @@include('../partials/views/study.html')
+
+        @@include('../partials/views/all-cards.html')
+
+        <p class="u-sr-only" aria-live="polite" data-js="live-region"></p>
+      </main>
+
+      @@include('../partials/notifications/toast.html')
+    </div>
+
+    @@include('../partials/dialogs/edit-card.html')
+
+    @@include('../partials/dialogs/delete-card.html')
+  </body>
+</html>
