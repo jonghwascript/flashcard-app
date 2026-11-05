@@ -34,6 +34,7 @@
     filters: { study: createFilter(), all: createFilter() },
     openMenuId: null, // 열린 카드 메뉴의 카드 id
     loadFailed: false,
+    loading: true,
   };
 
   // ------------------------------------------
@@ -465,6 +466,8 @@
    * @returns
    */
   function renderStudy() {
+    // 숨길 영역 안에 포커스가 있었는지 먼저 기억해야, 숨긴 뒤에도 이동할 곳을 정할 수 있다.
+    const hadStudyFocus = byJs('study-content').contains(document.activeElement);
     //카드를 보여주기 전에 4가지 UI 상태 중 하나만 화면에 띄우도록 상호 배타적으로 처리
     const study = state.filters.study;
     const set = getFilteredCards(study);
@@ -477,7 +480,12 @@
     setHidden('study-content', set.length === 0);
 
     //카드를 렌더링할 수 없으므로 return으로 즉시 함수를 빠져나옵니다(Early Return)
-    if (!set.length) return;
+    if (!set.length) {
+      if (hadStudyFocus) {
+        find('[data-action="toggle-hide-mastered"]', scopeRoot('study')).focus();
+      }
+      return;
+    }
 
     //Math.min으로 안전하게 현재 카드를 가져옵니다
     study.index = Math.min(study.index, set.length - 1);
@@ -840,8 +848,8 @@
     element.close();
   }
 
-  // 삭제한 카드 자리에 온 다음 카드 → 이전 카드 → 빈 상태 제목 순서로 포커스를 준다
-  function focusAfterDelete(index) {
+  // 삭제되거나 필터에서 빠진 카드의 다음 카드 → 이전 카드 → 빈 상태 제목 순서로 포커스를 준다.
+  function focusCardAt(index) {
     const buttons = findAll(
       '[data-action="toggle-card-menu"]',
       byJs('card-grid'),
@@ -1003,7 +1011,7 @@
       const index = getFilteredCards(state.filters.all).findIndex(
         (card) => card.id === id,
       );
-      closeDialog(button.closest('dialog'), () => focusAfterDelete(index));
+      closeDialog(button.closest('dialog'), () => focusCardAt(index));
       // filter는 삭제 대상 ID를 제외한 새 배열을 만든다. commitCards가 저장과 렌더링을 처리한다.
       commitCards(state.cards.filter((card) => card.id !== id));
       showToast('Card deleted.');
@@ -1065,7 +1073,13 @@
 
     // 생성 분기에서 return했으므로 여기부터는 기존 카드 수정이다.
     const id = dialog.cardId;
-    closeDialog(form.closest('dialog'));
+    const index = getFilteredCards(state.filters.all).findIndex((card) => card.id === id);
+    // 수정 후 필터에서 빠진 카드라면 원래 버튼 대신 인접 카드로 돌아간다.
+    closeDialog(form.closest('dialog'), () => {
+      const button = menuButton(id);
+      if (button) button.focus();
+      else focusCardAt(index);
+    });
     commitCards(
       updateCard(id, {
         question: values.question.trim(),
@@ -1105,6 +1119,7 @@
   function bindEvents() {
     // 실행 동작을 먼저 처리한 뒤, 아래의 바깥 클릭 처리가 열림 상태를 정리한다
     document.addEventListener('click', (event) => {
+      if (state.loading) return;
       // 버튼 안의 아이콘을 클릭해도 closest로 data-action을 가진 부모 버튼을 찾는다.
       const button = elementTarget(event)?.closest('[data-action]');
       const action = button && actions[button.dataset.action];
@@ -1113,6 +1128,7 @@
 
     // 체크박스의 선택이 바뀌면 해당 보기의 필터에 반영한다.
     document.addEventListener('change', (event) => {
+      if (state.loading) return;
       const input = elementTarget(event);
       if (!input) return;
 
@@ -1137,6 +1153,7 @@
       const form = elementTarget(event);
       if (!form || !form.matches('[data-js="card-form"]')) return;
       event.preventDefault();
+      if (state.loading) return;
       submitCard(form);
     });
 
@@ -1225,6 +1242,11 @@
   // 앱 시작: 이벤트를 연결하고 카드를 불러온 뒤 현재 상태를 화면에 그린다.
   // async/await는 비동기 로딩 결과를 기다리되, 그동안 브라우저의 다른 작업은 막지 않는다.
   async function init() {
+    // 초기 데이터가 준비되기 전에 카드를 만들면 로딩 결과에 덮어써질 수 있다.
+    // inert는 로딩 중 앱 내부의 클릭·키보드 조작을 막고, aria-busy는 준비 중임을 알린다.
+    const app = find('.c-app');
+    app.inert = true;
+    app.setAttribute('aria-busy', 'true');
     bindEvents();
     try {
       state.cards = await loadCards();
@@ -1232,7 +1254,10 @@
       // 불러오기에 실패해도 render를 실행해 사용자에게 오류 상태를 표시한다.
       state.loadFailed = true;
     }
+    state.loading = false;
     render();
+    app.inert = false;
+    app.setAttribute('aria-busy', 'false');
   }
 
   // defer 스크립트는 DOM 해석 뒤에 실행되지만, 다른 방식으로 불러와도 동작하도록 한 번 더 확인한다

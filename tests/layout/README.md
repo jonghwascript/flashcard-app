@@ -5,6 +5,7 @@
 ```powershell
 node tests/layout/baseline.cjs
 node tests/layout/app.cjs
+node tests/layout/regressions.cjs
 $env:LAYOUT_PREVIEW = '<app.cjs가 출력한 임시 root 경로>'
 node tests/layout/overlays.cjs
 node tests/layout/stress.cjs
@@ -17,6 +18,8 @@ node tests/layout/includes.cjs
 기본 브라우저는 Windows의 설치된 Google Chrome입니다. 다른 경로는 `CHROME_PATH`, Firefox는 `LAYOUT_BROWSER=firefox`와 선택적인 `FIREFOX_PATH` 환경 변수로 지정합니다. Playwright와 호환되는 브라우저가 필요하며 설치·다운로드를 자동 실행하지 않습니다.
 
 미리보기는 현재 정적 자산인 `src/js`, `src/images`, `src/data.json`을 복사합니다. 글꼴은 페이지의 Google Fonts 링크를 사용하므로 로컬 `src/fonts` 폴더를 요구하지 않습니다. `structure.cjs`는 브라우저에서 앱을 초기화한 뒤 실제 DOM의 `classList`를 검사하므로 JavaScript 주석의 예시 HTML은 검사에 포함되지 않습니다.
+
+`regressions.cjs`는 초기 로딩 중 저장 차단, 로딩 성공·실패 후 카드 생성, 마지막 학습 카드가 숨겨질 때의 포커스, 수정한 카드가 필터에서 제외될 때 다음·이전 카드 또는 빈 상태 제목으로의 포커스 이동을 확인합니다. 실행 전후 `dist` 해시도 비교합니다.
 
 `render-html.cjs`는 Gulp와 동일한 `gulp-file-include` 엔진의 `@@`·`@file` 옵션으로 페이지를 조합해 문자열을 반환합니다. Gulp 태스크나 dest/clean을 실행하지 않습니다. `includes.cjs`는 OS 임시 폴더에서 단일·중첩 include의 상대 경로와 누락 파일 오류·CLI 실패 종료를 검사합니다. `node tests/layout/render-html.cjs`는 조합 결과를 표준 출력으로 보여 줍니다.
 
