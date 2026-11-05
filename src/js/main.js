@@ -94,7 +94,7 @@
       card !== null &&
       typeof card === 'object' &&
       ['id', 'question', 'answer', 'category'].every(
-        (key) => typeof card[key] === 'string',
+        (key) => typeof card[key] === 'string' && card[key].trim() !== '',
       ) &&
       Number.isInteger(card.knownCount) && // 소수점이나 NaN, 문자열 형태의 숫자가 아닌 순수 정수(Integer)인지 확인
       card.knownCount >= 0 &&
@@ -149,11 +149,7 @@
   }
 
   function createId() {
-    let id;
-    do {
-      id = `fc-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
-    } while (state.cards.some((card) => card.id === id));
-    return id;
+    return `fc-${crypto.randomUUID()}`;
   }
 
   // 대소문자만 다른 기존 카테고리가 있으면 그 표기를 쓴다 (수정 중인 카드 자신은 비교에서 뺀다)
@@ -262,7 +258,10 @@
   // 상태 변경
   // ------------------------------------------
   function setFilter(scope, patch) {
-    Object.assign(state.filters[scope], patch);
+    state.filters = {
+      ...state.filters,
+      [scope]: { ...state.filters[scope], ...patch },
+    };
     render();
   }
 
