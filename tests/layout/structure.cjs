@@ -3,18 +3,38 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 const sass = require('sass');
 const postcss = require('postcss');
-const { project, hashes } = require('./helpers.cjs');
+const { project, hashes, preview, launch } = require('./helpers.cjs');
 const { renderHtml } = require('./render-html.cjs');
+
+// 소스 문자열이나 주석 대신, 앱이 생성한 실제 요소의 classList를 검사한다.
+async function renderedLayoutClasses() {
+  const site = await preview('structure');
+  let browser;
+  try {
+    browser = await launch();
+    const page = await browser.newPage();
+    // 외부 글꼴 연결 여부가 구조 검사 결과에 영향을 주지 않도록 한다.
+    await page.route('https://fonts.googleapis.com/**', route => route.abort());
+    await page.goto(site.url, { waitUntil: 'domcontentloaded' });
+    await page.locator('.c-grid-card').first().waitFor({ state: 'attached' });
+    assert.equal(await page.locator('[data-js="load-error"]').isVisible(), false, 'Preview data failed to load');
+    assert.ok(await page.locator('.c-grid-card').count() > 0, 'Generated cards are missing');
+    return new Set(await page.locator('[class]').evaluateAll(elements =>
+      [...new Set(elements.flatMap(element => [...element.classList]))].filter(name => name.startsWith('l-')),
+    ));
+  } finally {
+    if (browser) await browser.close();
+    await site.close();
+  }
+}
 
 async function main() {
   const html = await renderHtml();
-  const script = fs.readFileSync(path.join(project, 'src/js/main.js'), 'utf8');
   const css = sass.compile(path.join(project, 'src/scss/style.scss')).css;
   const tree = postcss.parse(css);
   const layoutSelectors = new Set();
   tree.walkRules(rule => { for (const match of rule.selector.matchAll(/\.((?:l-)[\w-]+)/g)) layoutSelectors.add(match[1]); });
-  const used = new Set([...html.matchAll(/class="([^"]+)"/g), ...script.matchAll(/class="([^"]+)"/g)]
-    .flatMap(match => match[1].split(/\s+/)).filter(name => name.startsWith('l-')));
+  const used = await renderedLayoutClasses();
   assert.deepEqual([...used].filter(name => !layoutSelectors.has(name)), [], 'Markup uses missing layout classes');
   // 공통 레이아웃 패턴 파일이 없으므로 전체 출력의 l- 클래스는 모두 앱 전용이다.
   const appClasses = new Set([...css.matchAll(/\.(l-[\w-]+)/g)].map(match => match[1]));

@@ -2,7 +2,7 @@ const fs=require('fs'),path=require('path'),os=require('os'),http=require('http'
 const cwd=process.cwd(), {chromium}=require(path.join(cwd,'node_modules/@playwright/test'));
 const root=fs.mkdtempSync(path.join(os.tmpdir(),'layout-app-'));
 fs.mkdirSync(path.join(root,'css'));
-for(const dir of ['js','images','fonts'])fs.cpSync(path.join('src',dir),path.join(root,dir),{recursive:true});
+for(const dir of ['js','images'])fs.cpSync(path.join('src',dir),path.join(root,dir),{recursive:true});
 fs.copyFileSync('src/data.json',path.join(root,'data.json'));
 fs.writeFileSync(path.join(root,'css/style.css'),require(path.join(cwd,'node_modules/sass')).compile('src/scss/style.scss').css);
 const sourceFiles=['.gitignore','package.json','gulpfile.js',...['src','dist','.storybook'].flatMap(d=>fs.existsSync(d)?fs.readdirSync(d,{recursive:true}).filter(f=>fs.statSync(path.join(d,f)).isFile()).map(f=>path.join(d,f)):[])];

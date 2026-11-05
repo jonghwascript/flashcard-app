@@ -18,7 +18,7 @@ async function preview(label) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), `layout-${label}-`));
   fs.mkdirSync(path.join(root, 'css'));
   fs.writeFileSync(path.join(root, 'index.html'), await renderHtml());
-  for (const dir of ['js', 'images', 'fonts']) fs.cpSync(path.join(project, 'src', dir), path.join(root, dir), { recursive: true });
+  for (const dir of ['js', 'images']) fs.cpSync(path.join(project, 'src', dir), path.join(root, dir), { recursive: true });
   fs.copyFileSync(path.join(project, 'src/data.json'), path.join(root, 'data.json'));
   fs.writeFileSync(path.join(root, 'css/style.css'), require('sass').compile(path.join(project, 'src/scss/style.scss')).css);
   const mime = { '.html': 'text/html', '.css': 'text/css', '.js': 'application/javascript', '.json': 'application/json', '.svg': 'image/svg+xml', '.ttf': 'font/ttf', '.png': 'image/png' };
