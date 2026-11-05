@@ -32,8 +32,8 @@ This is a solution to the [Flashcard app challenge on Frontend Mentor](https://w
 
 ### Links
 
-- [Source code](https://github.com/jonghwascript/flashcard-app)
-
+- Solution URL: [Repository](https://github.com/jonghwascript/flashcard-app)
+- Live Site URL: [Live site](https://jonghwascript.github.io/flashcard-app/)
 ## My process
 
 ### Built with
